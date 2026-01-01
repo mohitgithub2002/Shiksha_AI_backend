@@ -8,6 +8,13 @@
       "when": 1766701591455,
       "tag": "0000_foamy_quasimodo",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1767039173807,
+      "tag": "0001_famous_mentor",
+      "breakpoints": true
     }
   ]
 }
