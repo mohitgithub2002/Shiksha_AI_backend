@@ -32,8 +32,10 @@ const loginSchema = z.object({
  *         "token": "jwt_token_here",
  *         "schoolName": "ABC School",
  *         "name": "John Doe",
+ *         "classId": 1,
  *         "class": "10",
- *         "section": "A"
+ *         "section": "A",
+ *         "enrollmentId": 1
  *       },
  *       {
  *         "schoolName": "XYZ School",
@@ -95,7 +97,8 @@ export async function POST(request: NextRequest) {
         schoolId: schema.students.schoolId,
         schoolName: schema.schools.name,
         enrollmentId: schema.enrollments.id,
-        className: schema.classes.className,
+        classId: schema.classes.classId,
+        className: schema.classlist.className,
         section: schema.classes.section,
         enrollmentDate: schema.enrollments.enrollmentDate,
         isActive: schema.enrollments.isActive,
@@ -110,6 +113,7 @@ export async function POST(request: NextRequest) {
         )
       )
       .leftJoin(schema.classes, eq(schema.enrollments.classId, schema.classes.id))
+      .leftJoin(schema.classlist, eq(schema.classes.classId, schema.classlist.id))
       .where(eq(schema.students.userId, userData.id))
       .orderBy(
         schema.students.id,
@@ -136,6 +140,7 @@ export async function POST(request: NextRequest) {
         schoolId: number;
         schoolName: string;
         enrollmentId: number | null;
+        classId: number | null;
         className: string | null;
         section: string | null;
       }
@@ -152,7 +157,8 @@ export async function POST(request: NextRequest) {
           schoolId: row.schoolId,
           schoolName: row.schoolName,
           enrollmentId: row.enrollmentId,
-          className: row.className,
+          classId: row.classId,
+          className: row.className?.toString() || null,
           section: row.section,
         });
       }
@@ -195,8 +201,10 @@ export async function POST(request: NextRequest) {
         token,
         schoolName: student.schoolName,
         name: student.name,
+        classId: student.classId,
         class: student.className,
         section: student.section,
+        enrollmentId: student.enrollmentId,
       };
     });
 
