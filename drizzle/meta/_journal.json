@@ -15,6 +15,13 @@
       "when": 1767039173807,
       "tag": "0001_famous_mentor",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1767300559763,
+      "tag": "0002_sour_green_goblin",
+      "breakpoints": true
     }
   ]
 }

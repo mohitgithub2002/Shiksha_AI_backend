@@ -17,7 +17,8 @@ export const schools = pgTable("schools", {
   pinCode: varchar("pin_code", { length: 10 }),
   ownerName: varchar("owner_name", { length: 255 }),
   contactEmail: varchar("contact_email", { length: 255 }),
-  contactPhone: varchar("contact_phone", { length: 20 }),
+  contactPhone: varchar("contact_phone", { length: 20 }).notNull(),
+  passwordHash: text("password_hash"), // Nullable initially, school owner can set password later
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 }, (table) => [
   index('schools_name_idx').on(table.name),
