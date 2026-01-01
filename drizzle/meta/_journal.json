@@ -22,6 +22,13 @@
       "when": 1767300559763,
       "tag": "0002_sour_green_goblin",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1767305701666,
+      "tag": "0003_yellow_marvel_zombies",
+      "breakpoints": true
     }
   ]
 }

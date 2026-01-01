@@ -80,17 +80,17 @@ export const teachers = pgTable('teachers', {
 export const classes = pgTable('classes', {
   id: serial('id').primaryKey(),
   schoolId: integer('school_id').notNull().references(() => schools.id, { onDelete: 'cascade' }),
+  classId: integer('class_id').notNull().references(() => classlist.id, { onDelete: 'restrict' }),
   session: varchar('session', { length: 100 }).notNull(),
-  className: varchar('class', { length: 100 }).notNull(),
   section: varchar('section', { length: 100 }).notNull(),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 }, (table) => [  
   index('classes_school_id_idx').on(table.schoolId),
+  index('classes_class_id_idx').on(table.classId),
   index('classes_session_idx').on(table.session),
-  index('classes_class_idx').on(table.className),
   index('classes_section_idx').on(table.section),
-  uniqueIndex('classes_school_session_class_section_unique').on(table.schoolId, table.session, table.className, table.section),
+  uniqueIndex('classes_school_session_class_section_unique').on(table.schoolId, table.session, table.classId, table.section),
 ]);
 
 // Enrollments table
@@ -193,8 +193,11 @@ export const classesRelations = relations(classes, ({ many, one }) => ({
     fields: [classes.schoolId],
     references: [schools.id],
   }),
+  classlist: one(classlist, {
+    fields: [classes.classId],
+    references: [classlist.id],
+  }),
 }));
-
 export const enrollmentsRelations = relations(enrollments, ({ one }) => ({
   student: one(students, {
     fields: [enrollments.studentId],
